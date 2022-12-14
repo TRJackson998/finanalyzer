@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "python-project"
+version = "0.0.0"
+description = "Poetry environment for my personal python projects"
+authors = ["Terrence Jackson"]
+readme = "README.md"
+packages = [{include = "python_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^1.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
