@@ -39,8 +39,9 @@ def fill_dict(working_dict: dict[str, list[str]], in_csv: str) -> dict[str, list
             if chosen_category == "-1":
                 i = 0
                 for category in category_options:
-                    print(f"{i}: {category}")
-                    i += 1
+                    if category not in working_dict.keys():
+                        print(f"{i}: {category}")
+                        i += 1
                 chosen_category = input(f"{description} belongs to category: ")
                 chosen_category = category_options[int(chosen_category)]
 
@@ -72,6 +73,7 @@ def fill_dict(working_dict: dict[str, list[str]], in_csv: str) -> dict[str, list
                     else:
                         # try again on the next run, this one's getting skipped
                         print("Error, skipping...")
+            working_dict = sort_dict(working_dict)
     return working_dict
 
 
