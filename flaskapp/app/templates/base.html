@@ -17,14 +17,12 @@
       <h1>Terrence Jackson</h1>
       <!-- Navigation bar -->
       <nav>
-        <p>
-          {% if g.user %} Logged in as {{ g.user }} at {{ g.ip }} {% endif %}
-        </p>
+        <p>{% if g.user %} Logged in as {{ g.user }} {% endif %}</p>
         <ul>
           {% if g.user %}
           <li><a href="/">Home</a></li>
+          <li><a href="{{ url_for('auth.update') }}">Update Password</a></li>
           <li><a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}</li>
-
           <li><a href="{{ url_for('auth.register') }}">Register</a></li>
           <li>
             <a href="{{ url_for('auth.login') }}">Log In</a>

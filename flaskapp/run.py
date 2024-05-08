@@ -9,6 +9,6 @@ A lot of this project is based on the Flask tutorial:
 Based on https://flask.palletsprojects.com/en/3.0.x/tutorial/
 """
 
-from flaskapp.app import app
+from flaskapp.app import app_object
 
-app.run(debug=True)
+app_object.run(debug=True)

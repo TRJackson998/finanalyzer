@@ -9,11 +9,11 @@ from pathlib import Path
 from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 
 import pandas as pd
-from flask import (Blueprint, flash, g, redirect, render_template, request,
-                   session, url_for)
+from flask import (Blueprint, current_app, flash, g, redirect, render_template,
+                   request, session, url_for)
 from passlib.hash import sha256_crypt
 
-from flaskapp import AUTH_PICKLE
+from flaskapp.app.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -27,7 +27,7 @@ class AuthError(Exception):
 
         # write to log file
         with open(
-            Path(__file__).parent.parent.joinpath("instance", "log.txt"),
+            Path(current_app.instance_path, "log.txt"),
             "a",
             encoding="UTF-8",
         ) as log_file:
@@ -44,11 +44,15 @@ def load_logged_in_user():
     user_id = session.get("user_id")
     g.ip = request.remote_addr
 
-    if user_id is None or not AUTH_PICKLE.exists():
+    if user_id is None:
         g.user = None
     else:
-        auth_df: pd.DataFrame = pd.read_pickle(AUTH_PICKLE)
-        g.user = auth_df.iloc[user_id, :]["Username"]
+        # pull user from db
+        db = get_db()
+        this_user = db.execute(
+        'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+        g.user = this_user["username"]
 
 
 def validate_password(password: str) -> bool:
@@ -116,30 +120,17 @@ def register():
             # hash the password
             password = sha256_crypt.hash(password)
 
-            # read pre-existing auth pickle into df, or create new df
-            auth_df = (
-                pd.read_pickle(AUTH_PICKLE)
-                if AUTH_PICKLE.exists()
-                else pd.DataFrame(columns=["Username", "Password"])
-            )
-
-            # check if username already in auth pickle
-            if username in auth_df.loc[:, "Username"].tolist():
-                raise AuthError(f"User {username} is already registered.")
-
-            # add user/pass to auth pickle
-            auth_df = pd.concat(
-                [
-                    auth_df,
-                    pd.DataFrame(
-                        {"Username": username, "Password": password},
-                        index=[len(auth_df)],
-                    ),
-                ],
-            )
-            pd.to_pickle(auth_df, AUTH_PICKLE)
-
-            # redirect to login page
+            # add user to the database
+            try:
+                db = get_db()
+                db.execute(
+                    "INSERT INTO user (username, password) VALUES (?, ?)",
+                    (username, password),
+                )
+                db.commit()
+            except db.IntegrityError as e:
+                raise AuthError(f"User {username} is already registered.") from e
+            
             return redirect(url_for("auth.login"))
 
         except AuthError:
@@ -162,35 +153,25 @@ def login():
             # pull data from request form
             username = request.form["username"]
             password = request.form["password"]
+            print(username)
 
-            # if no auth pickle, no users have been registered
-            if not AUTH_PICKLE.exists():
-                raise AuthError()
+            # pull user from db
+            db = get_db()
+            this_user = db.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+            ).fetchone()
 
-            # pull this user from the auth pickle
-            auth_df: pd.DataFrame = pd.read_pickle(AUTH_PICKLE)
-            this_user = auth_df.loc[auth_df["Username"] == username]
-
-            if not this_user.empty:
-                # pull username and password fields
-                _user = this_user["Username"].iloc[0]
-                _pass = this_user["Password"].iloc[0]
-            else:
-                # this user doesn't exist in the auth pickle
-                raise AuthError()
-
-            if _user is None:
-                # no username for this user
-                raise AuthError()
-            if not sha256_crypt.verify(password, _pass):
+            if this_user is None:
+                # this user doesn't exist in the db
+                raise AuthError("User is none")
+            if not sha256_crypt.verify(password, this_user["password"]):
                 # password doesn't match
-                raise AuthError()
+                raise AuthError("Pass doesn't match")
 
             # clear the session and set current user
             session.clear()
-            user_index = int(this_user.index.values[0])
-            session["user_id"] = user_index
-            g.user = auth_df.iloc[user_index, :]["Username"]
+            session["user_id"] = this_user["id"]
+            g.user = this_user["username"]
             g.ip = request.remote_addr
 
             # send user to landing page once logged in
@@ -225,19 +206,25 @@ def update():
                 raise AuthError("New Password and Confirm Password fields must match")
 
             # get this user's current password
-            auth_df: pd.DataFrame = pd.read_pickle(AUTH_PICKLE)
-            current_password = auth_df.loc[auth_df["Username"] == g.user, "Password"].values[0]
+            # pull user from db
+            db = get_db()
+            this_user = db.execute(
+            'SELECT * FROM user WHERE username = ?', (g.user,)
+            ).fetchone()
 
             # verify it isn't the same
-            if sha256_crypt.verify(password, current_password):
+            if sha256_crypt.verify(password, this_user["password"]):
                 raise AuthError("Cannot use same password.")
 
             # hash the password
             password = sha256_crypt.hash(password)
 
             # update this user in the auth pickle
-            auth_df.loc[auth_df["Username"] == g.user, "Password"] = password
-            pd.to_pickle(auth_df, AUTH_PICKLE)
+            db.execute(
+                    "UPDATE user SET password = ? where username = ?",
+                    (password, g.user,),
+                )
+            db.commit()
 
             # send feedback to the end user
             flash("Password successfully changed!", "info")
