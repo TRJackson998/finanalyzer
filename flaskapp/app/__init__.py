@@ -29,4 +29,6 @@ app_object.register_blueprint(routes.bp)
 # db requires app context
 with app_object.app_context():
     db.init_app()
-    # db.init_db()
+    if not Path(app_object.config["DATABASE"]).exists():
+        # init database if it doesn't already exist
+        db.init_db()
