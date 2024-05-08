@@ -1,0 +1,15 @@
+<!-- auth_form.html -->
+{% extends "base.html" %} {% block content %}
+<h2>{% block form_title %}{% endblock %}</h2>
+<form action="{{ form_action }}" method="post">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+  </div>
+  <button type="submit">{% block submit_text %}{% endblock %}</button>
+</form>
+{% block other_content %}{% endblock %} {% endblock %}

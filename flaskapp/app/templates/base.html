@@ -1,0 +1,51 @@
+<!-- base.html -->
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terrence Jackson's Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>Terrence Jackson</h1>
+      <!-- Navigation bar -->
+      <nav>
+        <p>
+          {% if g.user %} Logged in as {{ g.user }} at {{ g.ip }} {% endif %}
+        </p>
+        <ul>
+          {% if g.user %}
+          <li><a href="/">Home</a></li>
+          <li><a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}</li>
+
+          <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+          <li>
+            <a href="{{ url_for('auth.login') }}">Log In</a>
+            {% endif %}
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="content">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div class="{{ category }}">{{ message }}</div>
+      {% endfor %} {% block content %}
+      <!-- Content of specific page goes here -->
+      {% endblock %}
+    </section>
+
+    <footer>
+      {% block footer %}
+      <p>&copy; 2024 Terrence Jackson</p>
+      {% endblock %}
+    </footer>
+  </body>
+</html>
