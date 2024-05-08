@@ -32,7 +32,7 @@ class AuthError(Exception):
             encoding="UTF-8",
         ) as log_file:
             log_file.writelines(f"{datetime.today().strftime(r"%d/%m/%Y | %H:%M:%S")}"
-                                " | IP {g.ip} | {message}\n")
+                                f" | IP {g.ip} | {message}\n")
 
 
 @bp.before_app_request
