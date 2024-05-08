@@ -1,14 +1,15 @@
 [tool.poetry]
-name = "python-project"
+name = "finanalyzer"
 version = "0.0.0"
-description = "Poetry environment for my personal python projects"
+description = "Ongoing project to make it easier to analyze my finances"
 authors = ["Terrence Jackson"]
 readme = "README.md"
-packages = [{include = "python_project"}]
+packages = [{include = "finanalyzer"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-pandas = "^1.5.2"
+python = "^3.12"
+pandas = "^2.2.2"
+matplotlib = "^3.8.4"
 
 
 [build-system]

@@ -135,4 +135,4 @@ dmypy.json
 *.csv
 
 # whitelist
-!./Analyze_Finances/Assets/test.csv
+!test.csv
