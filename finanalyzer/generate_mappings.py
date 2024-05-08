@@ -1,6 +1,8 @@
 import os
+
 import pandas as pd
-from Assets.category_mappings import category_mappings
+
+from .assets.category_mappings import category_mappings
 
 
 def fill_dict(working_dict: dict[str, list[str]], in_csv: str) -> dict[str, list[str]]:

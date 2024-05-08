@@ -17,13 +17,16 @@ Summary:
 Additional Details:
     Planned updates: create a gui for user input about what graph they want to see
 """
+
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
 from datetime import date, timedelta
+
+import matplotlib.pyplot as plt
+import pandas as pd
 from dateutil.relativedelta import relativedelta
-from Assets.category_mappings import category_mappings
-from generate_mappings import generate_mappings
+
+from .assets.category_mappings import category_mappings
+from .generate_mappings import generate_mappings
 
 
 class Time:
