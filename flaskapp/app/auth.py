@@ -4,13 +4,20 @@ Authentication
 Flask Blueprint for authentication page behaviour
 """
 
-from datetime import datetime
 from pathlib import Path
 from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 
-import pandas as pd
-from flask import (Blueprint, current_app, flash, g, redirect, render_template,
-                   request, session, url_for)
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from passlib.hash import sha256_crypt
 
 from flaskapp.app.db import get_db
