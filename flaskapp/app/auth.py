@@ -50,9 +50,7 @@ def load_logged_in_user():
     else:
         # pull user from db
         db = get_db()
-        this_user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        this_user = db.execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
         g.user = this_user["username"]
 
 
@@ -131,7 +129,7 @@ def register():
                 db.commit()
             except db.IntegrityError as e:
                 raise AuthError(f"User {username} is already registered.") from e
-            
+
             return redirect(url_for("auth.login"))
 
         except AuthError:
@@ -158,7 +156,7 @@ def login():
             # pull user from db
             db = get_db()
             this_user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+                "SELECT * FROM user WHERE username = ?", (username,)
             ).fetchone()
 
             if this_user is None:
@@ -209,7 +207,7 @@ def update():
             # pull user from db
             db = get_db()
             this_user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (g.user,)
+                "SELECT * FROM user WHERE username = ?", (g.user,)
             ).fetchone()
 
             # verify it isn't the same
@@ -221,9 +219,12 @@ def update():
 
             # update this user in the auth pickle
             db.execute(
-                    "UPDATE user SET password = ? where username = ?",
-                    (password, g.user,),
-                )
+                "UPDATE user SET password = ? where username = ?",
+                (
+                    password,
+                    g.user,
+                ),
+            )
             db.commit()
 
             # send feedback to the end user
