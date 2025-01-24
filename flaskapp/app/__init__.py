@@ -5,11 +5,35 @@ Initializes and configures the Flask app
 Registers the auth and routes blueprints
 """
 
+from datetime import date
+from logging.config import dictConfig
 from pathlib import Path
 
 from flask import Flask
 
 from flaskapp.app import auth, db, routes
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+            },
+        },
+        "handlers": {
+            "file": {
+                "level": "INFO",
+                "formatter": "default",
+                "class": "logging.FileHandler",
+                "filename": f"{date.today()}.log",
+                "mode": "a",
+            },
+        },
+        "root": {"level": "INFO", "handlers": ["file"]},
+    }
+)
+
 
 instance_path = Path(Path(__file__).parent, "instance")
 instance_path.mkdir(exist_ok=True)
@@ -20,7 +44,6 @@ app_object.config.from_mapping(
     SECRET_KEY="dev",
     DATABASE=Path(app_object.instance_path, "mydb.sqlite"),
 )
-app_object.app_context()
 
 # blueprints
 app_object.register_blueprint(auth.bp)

@@ -4,13 +4,20 @@ Authentication
 Flask Blueprint for authentication page behaviour
 """
 
-from datetime import datetime
 from pathlib import Path
 from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 
-import pandas as pd
-from flask import (Blueprint, current_app, flash, g, redirect, render_template,
-                   request, session, url_for)
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from passlib.hash import sha256_crypt
 
 from flaskapp.app.db import get_db
@@ -26,13 +33,7 @@ class AuthError(Exception):
         flash(message, "error")
 
         # write to log file
-        with open(
-            Path(current_app.instance_path, "log.txt"),
-            "a",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.writelines(f"{datetime.today().strftime(r"%d/%m/%Y | %H:%M:%S")}"
-                                f" | IP {g.ip} | {message}\n")
+        current_app.logger.info("%s - %s", *(g.ip, message))
 
 
 @bp.before_app_request
@@ -49,9 +50,7 @@ def load_logged_in_user():
     else:
         # pull user from db
         db = get_db()
-        this_user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        this_user = db.execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
         g.user = this_user["username"]
 
 
@@ -130,7 +129,7 @@ def register():
                 db.commit()
             except db.IntegrityError as e:
                 raise AuthError(f"User {username} is already registered.") from e
-            
+
             return redirect(url_for("auth.login"))
 
         except AuthError:
@@ -153,12 +152,11 @@ def login():
             # pull data from request form
             username = request.form["username"]
             password = request.form["password"]
-            print(username)
 
             # pull user from db
             db = get_db()
             this_user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+                "SELECT * FROM user WHERE username = ?", (username,)
             ).fetchone()
 
             if this_user is None:
@@ -209,7 +207,7 @@ def update():
             # pull user from db
             db = get_db()
             this_user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (g.user,)
+                "SELECT * FROM user WHERE username = ?", (g.user,)
             ).fetchone()
 
             # verify it isn't the same
@@ -221,9 +219,12 @@ def update():
 
             # update this user in the auth pickle
             db.execute(
-                    "UPDATE user SET password = ? where username = ?",
-                    (password, g.user,),
-                )
+                "UPDATE user SET password = ? where username = ?",
+                (
+                    password,
+                    g.user,
+                ),
+            )
             db.commit()
 
             # send feedback to the end user
