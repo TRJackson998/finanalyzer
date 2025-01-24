@@ -11,4 +11,5 @@ Based on https://flask.palletsprojects.com/en/3.0.x/tutorial/
 
 from flaskapp.app import app_object
 
+app_object.logger.info("Starting app...")
 app_object.run(debug=True)

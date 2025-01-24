@@ -33,13 +33,7 @@ class AuthError(Exception):
         flash(message, "error")
 
         # write to log file
-        with open(
-            Path(current_app.instance_path, "log.txt"),
-            "a",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.writelines(f"{datetime.today().strftime(r"%d/%m/%Y | %H:%M:%S")}"
-                                f" | IP {g.ip} | {message}\n")
+        current_app.logger.info("%s - %s", *(g.ip, message))
 
 
 @bp.before_app_request
@@ -160,7 +154,6 @@ def login():
             # pull data from request form
             username = request.form["username"]
             password = request.form["password"]
-            print(username)
 
             # pull user from db
             db = get_db()
