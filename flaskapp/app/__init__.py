@@ -14,6 +14,11 @@ from flask import Flask
 
 from flaskapp.app import auth, db, routes
 
+instance_path = Path(Path(__file__).parent.parent, "instance")
+instance_path.mkdir(exist_ok=True, parents=True)
+log_path = instance_path / "logs" / f"{date.today()}.log"
+log_path.parent.mkdir(exist_ok=True, parents=True)
+
 dictConfig(
     {
         "version": 1,
@@ -27,17 +32,13 @@ dictConfig(
                 "level": "INFO",
                 "formatter": "default",
                 "class": "logging.FileHandler",
-                "filename": f"{date.today()}.log",
+                "filename": str(log_path),
                 "mode": "a",
             },
         },
         "root": {"level": "INFO", "handlers": ["file"]},
     }
 )
-
-
-instance_path = Path(Path(__file__).parent.parent, "instance")
-instance_path.mkdir(exist_ok=True)
 
 # create and configure the app
 app_object = Flask(__name__, instance_path=instance_path, instance_relative_config=True)
