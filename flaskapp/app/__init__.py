@@ -1,5 +1,5 @@
 """
-Portfolio Module Init
+Flask App Init
 =====================
 Initializes and configures the Flask app
 Registers the auth and routes blueprints
