@@ -5,6 +5,7 @@ Initializes and configures the Flask app
 Registers the auth and routes blueprints
 """
 
+import os
 from datetime import date
 from logging.config import dictConfig
 from pathlib import Path
@@ -41,7 +42,7 @@ instance_path.mkdir(exist_ok=True)
 # create and configure the app
 app_object = Flask(__name__, instance_path=instance_path, instance_relative_config=True)
 app_object.config.from_mapping(
-    SECRET_KEY="dev",
+    SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
     DATABASE=Path(app_object.instance_path, "mydb.sqlite"),
 )
 
