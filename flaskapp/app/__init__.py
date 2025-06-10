@@ -1,10 +1,11 @@
 """
-Portfolio Module Init
+Flask App Init
 =====================
 Initializes and configures the Flask app
 Registers the auth and routes blueprints
 """
 
+import os
 from datetime import date
 from logging.config import dictConfig
 from pathlib import Path
@@ -12,6 +13,11 @@ from pathlib import Path
 from flask import Flask
 
 from flaskapp.app import auth, db, routes
+
+instance_path = Path(Path(__file__).parent.parent, "instance")
+instance_path.mkdir(exist_ok=True, parents=True)
+log_path = instance_path / "logs" / f"{date.today()}.log"
+log_path.parent.mkdir(exist_ok=True, parents=True)
 
 dictConfig(
     {
@@ -26,7 +32,7 @@ dictConfig(
                 "level": "INFO",
                 "formatter": "default",
                 "class": "logging.FileHandler",
-                "filename": f"{date.today()}.log",
+                "filename": str(log_path),
                 "mode": "a",
             },
         },
@@ -34,14 +40,10 @@ dictConfig(
     }
 )
 
-
-instance_path = Path(Path(__file__).parent, "instance")
-instance_path.mkdir(exist_ok=True)
-
 # create and configure the app
 app_object = Flask(__name__, instance_path=instance_path, instance_relative_config=True)
 app_object.config.from_mapping(
-    SECRET_KEY="dev",
+    SECRET_KEY=os.environ.get("SECRET_KEY", "dev"),
     DATABASE=Path(app_object.instance_path, "mydb.sqlite"),
 )
 
