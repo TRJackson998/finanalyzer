@@ -36,7 +36,7 @@ dictConfig(
 )
 
 
-instance_path = Path(Path(__file__).parent, "instance")
+instance_path = Path(Path(__file__).parent.parent, "instance")
 instance_path.mkdir(exist_ok=True)
 
 # create and configure the app
