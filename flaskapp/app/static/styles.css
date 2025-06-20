@@ -203,8 +203,13 @@ body.dark-mode {
 
 .dark-mode button,
 .dark-mode input[type="submit"] {
-  background-color: #2980b9;
+  background-color: #1f6693; /* Darker Teal */
   color: white;
+}
+
+.dark-mode button:hover,
+.dark-mode input[type="submit"]:hover {
+  background-color: #2980b9; /* Deep Teal */
 }
 
 .dark-mode .alert {
