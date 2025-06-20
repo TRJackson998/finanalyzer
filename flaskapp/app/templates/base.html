@@ -14,36 +14,54 @@
 
   <body>
     <header>
-      <h1>Finanalyzer</h1>
-      <!-- Navigation bar -->
+      <!-- Navigation Bar -->
       <nav>
-        <p>{% if g.user %} Logged in as {{ g.user }} {% endif %}</p>
-        <ul>
+        <div class="nav-title">Finanalyzer</div>
+        <div class="nav-links">
           {% if g.user %}
-          <li><a href="/">Home</a></li>
-          <li><a href="{{ url_for('auth.update') }}">Update Password</a></li>
-          <li><a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}</li>
-          <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-          <li>
-            <a href="{{ url_for('auth.login') }}">Log In</a>
-            {% endif %}
-          </li>
-        </ul>
+          <a href="/">Home</a>
+          <a href="{{ url_for('auth.update') }}">Update Password</a>
+          <a href="{{ url_for('auth.logout') }}">Log Out</a>
+          {% else %}
+          <a href="{{ url_for('auth.register') }}">Register</a>
+          <a href="{{ url_for('auth.login') }}">Log In</a>
+          {% endif %}
+          <button id="toggle-dark" aria-label="Toggle dark mode">🌙</button>
+        </div>
       </nav>
     </header>
 
-    <section class="content">
+    <!-- Main Content Area -->
+    <div class="content">
       {% for category, message in get_flashed_messages(with_categories=true) %}
       <div class="{{ category }}">{{ message }}</div>
       {% endfor %} {% block content %}
-      <!-- Content of specific page goes here -->
+      <!-- Page-specific content goes here -->
       {% endblock %}
-    </section>
+    </div>
 
+    <!-- Footer -->
     <footer>
       {% block footer %}
       <p>&copy; 2024 Terrence Jackson</p>
       {% endblock %}
     </footer>
+
+    <!-- Dark Mode Toggle Script -->
+    <script>
+      const toggleBtn = document.getElementById("toggle-dark");
+      const root = document.body;
+
+      // Load mode from localStorage
+      if (localStorage.getItem("theme") === "dark") {
+        root.classList.add("dark-mode");
+      }
+
+      toggleBtn.addEventListener("click", () => {
+        root.classList.toggle("dark-mode");
+        const isDark = root.classList.contains("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    </script>
   </body>
 </html>
