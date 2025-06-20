@@ -174,7 +174,7 @@ a:hover {
 
 /* ---------- Dark Mode Overrides ---------- */
 
-.dark-mode body {
+body.dark-mode {
   background-color: #333333; /* Charcoal Gray */
   color: #f9f9f9; /* Cloud White */
 }
