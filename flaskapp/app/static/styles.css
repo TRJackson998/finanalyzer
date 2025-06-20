@@ -172,42 +172,70 @@ a:hover {
   text-decoration: underline; /* Add underline on hover */
 }
 
-/* Flash message formatting */
-.error {
-  margin: 1em 0;
-  padding: 1em;
-  color: #fff;
-  background: #d11414;
-  border: 1px solid #333;
+/* ---------- Dark Mode Overrides ---------- */
+
+.dark-mode body {
+  background-color: #333333; /* Charcoal Gray */
+  color: #f9f9f9; /* Cloud White */
 }
 
-.info {
-  margin: 1em 0;
-  padding: 1em;
-  color: #fff;
-  background: #1962a7;
-  border: 1px solid #333;
+.dark-mode nav {
+  background-color: #121a22;
 }
 
-/* Table formatting */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #333;
-}
-thead {
-  text-align: center;
-  background-color: #333;
+.dark-mode header {
+  background-color: #121a22;
+  color: #f0f0f0;
 }
 
-tbody {
-  text-align: left;
-  background-color: #1962a7;
+.dark-mode form {
+  background-color: #2c2c2c;
+  border-color: #444;
 }
 
-th,
-td {
-  padding: 8px;
-  color: #fff;
-  border: 1px solid #ffffff;
+.dark-mode input,
+.dark-mode select {
+  background-color: #3a3a3a;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+.dark-mode button,
+.dark-mode input[type="submit"] {
+  background-color: #2980b9;
+  color: white;
+}
+
+.dark-mode .alert {
+  background-color: #6fa585;
+  color: #ffffff;
+}
+
+.dark-mode .error {
+  background-color: #7f1d1d;
+  color: #ffe5e5;
+}
+
+.dark-mode .info {
+  background-color: #2c3e50;
+  color: #d0ebff;
+}
+
+.dark-mode table {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+.dark-mode th {
+  background-color: #1f1f1f;
+}
+
+.dark-mode td,
+.dark-mode th {
+  border-color: #444;
+}
+
+.dark-mode footer {
+  color: #666;
+  border-color: #444;
 }
