@@ -173,7 +173,7 @@ def login():
             g.ip = request.remote_addr
 
             # send user to landing page once logged in
-            return redirect(url_for("routes.landing"))
+            return redirect(url_for("routes.dashboard"))
         except AuthError:
             # no need to do anything here, error already flashed
             pass
