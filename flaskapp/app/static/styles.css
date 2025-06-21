@@ -15,6 +15,15 @@ body {
   padding: 2rem;
 }
 
+.card {
+  border-left: 5px solid #a3d9b1;
+  background: #f9f9f9; /* Cloud White */
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
 /* ---------- Headers ---------- */
 h1,
 h2,
@@ -181,6 +190,10 @@ a:hover {
 body.dark-mode {
   background-color: #333333; /* Charcoal Gray */
   color: #f9f9f9; /* Cloud White */
+}
+
+.dark-mode .card {
+  background: #2c3e50; /* Soft Navy */
 }
 
 .dark-mode nav {
