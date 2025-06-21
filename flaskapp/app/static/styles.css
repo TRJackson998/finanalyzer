@@ -15,6 +15,15 @@ body {
   padding: 2rem;
 }
 
+/* ---------- Headers ---------- */
+h1,
+h2,
+h3 {
+  border-bottom: 2px solid #a3d9b1;
+  padding-bottom: 0.25rem;
+  margin-bottom: 1rem;
+}
+
 /* ---------- Navbar ---------- */
 
 nav {
@@ -40,6 +49,7 @@ nav .nav-links a {
 }
 
 nav .nav-links a:hover {
+  color: #a3d9b1;
   text-decoration: underline;
 }
 
@@ -61,6 +71,15 @@ input[type="submit"] {
 button:hover,
 input[type="submit"]:hover {
   background-color: #1f6693; /* Darker Teal */
+}
+
+button.secondary {
+  background-color: #a3d9b1; /* Soft Mint */
+  color: #2c3e50; /* Soft Navy text */
+}
+
+button.secondary:hover {
+  background-color: #8dcfa1;
 }
 
 /* ---------- Forms ---------- */
@@ -147,11 +166,12 @@ footer {
 }
 /* Link Formatting */
 a {
-  color: #333333; /* Charcoal Gray */
+  color: #2980b9;
+  transition: color 0.2s ease-in-out;
 }
 
 a:hover {
-  color: black;
+  color: #a3d9b1;
 }
 
 /* ---------- Dark Mode Overrides ---------- */
