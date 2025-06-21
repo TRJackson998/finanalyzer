@@ -79,7 +79,7 @@ button.secondary {
 }
 
 button.secondary:hover {
-  background-color: #8dcfa1;
+  background-color: #8dcfa1; /* Darker Mint */
 }
 
 /* ---------- Forms ---------- */
