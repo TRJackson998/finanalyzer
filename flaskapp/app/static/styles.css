@@ -168,10 +168,12 @@ footer {
 a {
   color: #2980b9;
   transition: color 0.2s ease-in-out;
+  text-decoration: none;
 }
 
 a:hover {
   color: #a3d9b1;
+  text-decoration: underline;
 }
 
 /* ---------- Dark Mode Overrides ---------- */
