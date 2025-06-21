@@ -19,7 +19,7 @@
         <div class="nav-title">Finanalyzer</div>
         <div class="nav-links">
           {% if g.user %}
-          <a href="/">Home</a>
+          <a href="{{ url_for('routes.dashboard') }}">Home</a>
           <a href="{{ url_for('auth.update') }}">Update Password</a>
           <a href="{{ url_for('auth.logout') }}">Log Out</a>
           {% else %}
