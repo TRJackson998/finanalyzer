@@ -1,4 +1,14 @@
 /* ---------- Base & Light Mode Styles ---------- */
+/* Color Scheme
+| Purpose    | Color Name       | Hex Code  |
+| ---------- | ---------------- | --------- |
+| Primary    | Soft Navy        | `#2C3E50` |
+| Accent     | Deep Teal        | `#2980B9` |
+| Highlight  | Soft Mint        | `#A3D9B1` |
+| Background | Cloud White      | `#F9F9F9` |
+| Text       | Charcoal Gray    | `#333333` |
+| Muted      | Light Slate Gray | `#BDC3C7` |
+*/
 
 body {
   font-family: "Segoe UI", Roboto, sans-serif;
