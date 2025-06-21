@@ -1,9 +1,76 @@
 <!-- landing.html -->
-{% extends "base.html" %} {% block content %}
-<h2>Welcome!</h2>
+{% extends "base.html" %} {% block title %}Welcome | Finance Tracker{% endblock
+%} {% block content %}
+<section style="text-align: center; padding-top: 2rem">
+  <h1>Take Control of Your Finances</h1>
+  <p style="max-width: 600px; margin: 1rem auto; font-size: 1.125rem">
+    Upload your bank statements, categorize your transactions, and gain clear
+    insight into your spending from a secure, easy-to-use dashboard.
+  </p>
+
+  <div style="margin-top: 2rem">
+    <a href="{{ url_for('auth.register') }}" class="button"> Get Started </a>
+    <a href="{{ url_for('auth.login') }}" style="margin-left: 1rem">
+      <button class="secondary">Log In</button>
+    </a>
+  </div>
+</section>
+
+<section style="margin-top: 4rem">
+  <h2 style="text-align: center">Features</h2>
+  <div
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    "
+  >
+    <div
+      style="
+        flex: 1 1 250px;
+        max-width: 300px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <h3>📤 Upload CSVs</h3>
+      <p>
+        Easily import transaction data from your bank or credit card provider.
+      </p>
+    </div>
+    <div
+      style="
+        flex: 1 1 250px;
+        max-width: 300px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <h3>📊 Visualize Spending</h3>
+      <p>Use interactive graphs and charts to see where your money goes.</p>
+    </div>
+    <div
+      style="
+        flex: 1 1 250px;
+        max-width: 300px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <h3>🏷️ Categorize Transactions</h3>
+      <p>Organize expenses with customizable categories for better insights.</p>
+    </div>
+  </div>
+</section>
 
 {% endblock %} {% block footer%}
 <p>&copy; 2024 Terrence Jackson</p>
-<!-- Add current datetime to footer -->
-<p>{{ current_datetime }}</p>
 {% endblock %}
