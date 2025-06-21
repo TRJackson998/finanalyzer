@@ -6,7 +6,7 @@ Flask Blueprint for rendering non-auth routes
 
 from datetime import datetime
 
-from flask import Blueprint, g, redirect, render_template, url_for
+from flask import Blueprint, g, redirect, render_template, request, url_for
 
 bp = Blueprint("routes", __name__)
 
@@ -14,9 +14,11 @@ bp = Blueprint("routes", __name__)
 @bp.before_request
 def before_request():
     """Check if logged in first"""
-    if not g.user:
-        # if not logged in, redirect to login page
-        return redirect(url_for("auth.login"))
+    allowed_routes = ["routes.landing", "auth.login", "auth.register"]
+
+    if not g.user and request.endpoint not in allowed_routes:
+        # if not logged in, redirect to landing page
+        return redirect(url_for("routes.landing"))
 
 
 @bp.route("/")
